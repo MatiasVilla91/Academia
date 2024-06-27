@@ -1,10 +1,12 @@
 const courses = [
   {
     id: 1,
-    title: 'Curso de Astrología',
-    description: 'Aprende los fundamentos de la astrología y cómo interpretar cartas natales.',
-    image: 'https://via.placeholder.com/800x400?text=Curso+de+Astrología',
-    details: 'Este curso cubre los principios básicos de la astrología, incluyendo signos, planetas y casas.'
+    title: "SUEÑO LÚCIDO TOTAL: El arte del sueño consciente y la experiencia OBE en 30 días",
+    description: "Curso online para entrenamiento en sueño lúcido y viaje astral...",
+    price: "46.885,00 ARS",
+    image: "https://static-media.hotmart.com/SR4ZxlQ3b4X9c-Twd2s6_IJQB9Q=/300x300/smart/filters:format(webp):background_color(white)/hotmart/product_pictures/d14742d2-5f52-4b55-b652-3a62f7826817/PortadaSueoLcidoTotal.jpg?w=920",
+    details: "Contenido detallado del curso...",
+    
   },
   {
     id: 2,

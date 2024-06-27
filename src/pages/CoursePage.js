@@ -2,9 +2,6 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Row, Col, Button, ListGroup, Card } from 'react-bootstrap';
 import courses from '../data/coursesData';
-//import CustomNavbar from '../components/Navbar'; 
- 
-
 
 const CoursePage = () => {
   const { id } = useParams();

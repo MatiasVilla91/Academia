@@ -15,12 +15,21 @@ function waitForTimeout(ms) {
     headless: true,
   });
   const page = await browser.newPage();
-  
+
   console.log('Navegando a la página...');
   await page.goto('https://hotmart.com/es/marketplace/productos/sueno-lucido-total-el-arte-del-sueno-consciente-y-la-experiencia-obe-en-30-dias/L52601728P?ref=H60828006O', { waitUntil: 'networkidle2' });
 
   console.log('Esperando 3 segundos...');
   await waitForTimeout(3000);
+
+  // Expandir todos los elementos del acordeón
+  await page.evaluate(() => {
+    const acordeonButtons = document.querySelectorAll('.accordion-button');
+    acordeonButtons.forEach(button => button.click());
+  });
+
+  console.log('Esperando 2 segundos para que el acordeón se expanda...');
+  await waitForTimeout(2000);
 
   console.log('Extrayendo datos...');
   const estructura = await page.evaluate(() => {
@@ -56,6 +65,11 @@ function waitForTimeout(ms) {
     const contenidoCurso = getMultipleTextContent('.course-content li');
     const imagenes = getMultipleImageSrc('img'); // Obtiene todas las imágenes
 
+    const acordeon = Array.from(document.querySelectorAll('.accordion-item')).map(item => ({
+      titulo: item.querySelector('.accordion-header') ? item.querySelector('.accordion-header').innerText : 'No disponible',
+      contenido: item.querySelector('.accordion-body') ? item.querySelector('.accordion-body').innerText : 'No disponible'
+    }));
+
     const p = getMultipleTextContent('p');
     const h1 = getMultipleTextContent('h1');
     const h2 = getMultipleTextContent('h2');
@@ -76,6 +90,7 @@ function waitForTimeout(ms) {
       requisitos,
       contenidoCurso,
       imagenes,
+      acordeon,
       encabezados: {
         h1,
         h2,

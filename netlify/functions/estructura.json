@@ -9,20 +9,12 @@
   "beneficios": [],
   "requisitos": [],
   "contenidoCurso": [],
-  "imagenes": [
-    "https://hotmart.com/product/static/images/icons/home.svg?w=360",
-    "https://hotmart.com/product/static/images/icons/arrow-right.png?w=360",
-    "https://hotmart.com/product/static/images/icons/arrow-right.png?w=360",
-    "https://hotmart.com/product/static/images/icons/star.svg?w=360",
-    "https://hotmart.com/product/static/images/icons/best_rated_black.svg?w=360",
-    "https://hotmart.com/product/static/images/icons/language.svg?w=360",
-    "https://hotmart.com/product/static/images/icons/share.svg?w=360",
-    "https://static-media.hotmart.com/SR4ZxlQ3b4X9c-Twd2s6_IJQB9Q=/300x300/smart/filters:format(webp):background_color(white)/hotmart/product_pictures/d14742d2-5f52-4b55-b652-3a62f7826817/PortadaSueoLcidoTotal.jpg?w=920",
+  "imagenes": [      
+
     "https://hotmart.com/product/static/images/icons/chevron-down.svg?w=360",
-    "https://hotmart.com/product/static/images/icons/star.svg?w=360",
-    "https://hotmart.com/product/static/images/icons/shopping-cart.svg?w=360",
-    "https://identification.hotmart.com/id.gif?cid=1719469816182465586395141141000&bid=1719469816182465586395141141000"
+   
   ],
+  "acordeon": [],
   "encabezados": {
     "h1": [
       "SUEÑO LÚCIDO TOTAL: El arte del sueño consciente y la experiencia OBE en 30 días"
