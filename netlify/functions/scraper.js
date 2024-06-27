@@ -1,5 +1,8 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
+const path = require('path');
+const axios = require('axios');
+const url = require('url');
 
 // Función de espera genérica
 function waitForTimeout(ms) {
@@ -14,40 +17,122 @@ function waitForTimeout(ms) {
   const page = await browser.newPage();
   
   console.log('Navegando a la página...');
-  await page.goto('https://hotmart.com/es/marketplace/productos/sueno-lucido-total-el-arte-del-sueno-consciente-y-la-experiencia-obe-en-30-dias', { waitUntil: 'networkidle2' });
+  await page.goto('https://hotmart.com/es/marketplace/productos/sueno-lucido-total-el-arte-del-sueno-consciente-y-la-experiencia-obe-en-30-dias/L52601728P?ref=H60828006O', { waitUntil: 'networkidle2' });
 
   console.log('Esperando 3 segundos...');
   await waitForTimeout(3000);
 
   console.log('Extrayendo datos...');
   const estructura = await page.evaluate(() => {
-    const tituloElement = document.querySelector('h1');
-    const descripcionElement = document.querySelector('.content-description');
-    const precioElement = document.querySelector('.price');
+    const getTextContent = (selector) => {
+      const element = document.querySelector(selector);
+      return element ? element.innerText : 'No disponible';
+    };
 
-    const titulo = tituloElement ? tituloElement.innerText : 'No disponible';
-    const descripcion = descripcionElement ? descripcionElement.innerText : 'No disponible';
-    const precio = precioElement ? precioElement.innerText : 'No disponible';
-    
-    return { titulo, descripcion, precio };
+    const getMultipleTextContent = (selector) => {
+      const elements = document.querySelectorAll(selector);
+      return Array.from(elements).map(element => element.innerText);
+    };
+
+    const getImageSrc = (selector) => {
+      const element = document.querySelector(selector);
+      return element ? element.src : 'No disponible';
+    };
+
+    const getMultipleImageSrc = (selector) => {
+      const elements = document.querySelectorAll(selector);
+      return Array.from(elements).map(element => element.src);
+    };
+
+    const titulo = getTextContent('h1');
+    const descripcion = getTextContent('.content-description');
+    const precio = getTextContent('.price');
+    const autor = getTextContent('.seller-link');
+    const fecha = getTextContent('.release-date');
+    const duracion = getTextContent('.duration');
+    const categorias = getMultipleTextContent('.category-tag');
+    const beneficios = getMultipleTextContent('.benefits li');
+    const requisitos = getMultipleTextContent('.requirements li');
+    const contenidoCurso = getMultipleTextContent('.course-content li');
+    const imagenes = getMultipleImageSrc('img'); // Obtiene todas las imágenes
+
+    const p = getMultipleTextContent('p');
+    const h1 = getMultipleTextContent('h1');
+    const h2 = getMultipleTextContent('h2');
+    const h3 = getMultipleTextContent('h3');
+    const h4 = getMultipleTextContent('h4');
+    const h5 = getMultipleTextContent('h5');
+    const h6 = getMultipleTextContent('h6');
+
+    return {
+      titulo,
+      descripcion,
+      precio,
+      autor,
+      fecha,
+      duracion,
+      categorias,
+      beneficios,
+      requisitos,
+      contenidoCurso,
+      imagenes,
+      encabezados: {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p
+      }
+    };
   });
+
+  // Convertir URLs relativas a absolutas
+  const baseUrl = 'https://hotmart.com';
+  estructura.imagenes = estructura.imagenes.map(imgUrl => {
+    if (imgUrl.startsWith('/')) {
+      return url.resolve(baseUrl, imgUrl);
+    }
+    return imgUrl;
+  });
+
+  // Filtrar URLs inválidas
+  estructura.imagenes = estructura.imagenes.filter(imgUrl => imgUrl.startsWith('http'));
+
+  console.log('Guardando imágenes...');
+  const imageFolder = path.join(__dirname, 'images');
+  if (!fs.existsSync(imageFolder)) {
+    fs.mkdirSync(imageFolder);
+  }
+
+  // Descarga las imágenes
+  for (const [index, src] of estructura.imagenes.entries()) {
+    if (src !== 'No disponible') {
+      const imagePath = path.join(imageFolder, `image${index}.jpg`);
+      const writer = fs.createWriteStream(imagePath);
+
+      try {
+        const response = await axios({
+          url: src,
+          method: 'GET',
+          responseType: 'stream'
+        });
+
+        response.data.pipe(writer);
+
+        await new Promise((resolve, reject) => {
+          writer.on('finish', resolve);
+          writer.on('error', reject);
+        });
+      } catch (error) {
+        console.error(`Error al descargar la imagen: ${src}`, error);
+      }
+    }
+  }
 
   console.log('Esperando 2 segundos antes de cerrar el navegador...');
   await waitForTimeout(2000);
-
-  console.log('Añadiendo secciones...');
-  // Añadir secciones de ejemplo (modificar según necesidades)
-  estructura.secciones = [
-    {
-      nombre: 'Introducción',
-      contenido: 'Contenido de la introducción...'
-    },
-    {
-      nombre: 'Capítulo 1',
-      contenido: 'Contenido del capítulo 1...'
-    },
-    // Puedes añadir más secciones aquí según la estructura de la web
-  ];
 
   await browser.close();
 
