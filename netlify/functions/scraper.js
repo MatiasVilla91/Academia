@@ -1,19 +1,18 @@
 const puppeteer = require('puppeteer');
-const fs = require('fs');
 const { parse } = require('json2csv');
 
-// Función de espera genérica
-function waitForTimeout(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+exports.handler = async (event, context) => {
+  // Función de espera genérica
+  function waitForTimeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
-(async () => {
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
     headless: true,
   });
   const page = await browser.newPage();
-  
+
   console.log('Navegando a la página...');
   await page.goto('https://hotmart.com/es/marketplace/productos/sueno-lucido-total-el-arte-del-sueno-consciente-y-la-experiencia-obe-en-30-dias', { waitUntil: 'networkidle2' });
 
@@ -32,7 +31,6 @@ function waitForTimeout(ms) {
     const precio = getTextContent('.price');
     const autor = getTextContent('.author-name'); // Ejemplo de autor
     const fecha = getTextContent('.release-date'); // Ejemplo de fecha de lanzamiento
-    // Añadir más selectores según los elementos disponibles en la página
 
     return {
       titulo,
@@ -40,7 +38,6 @@ function waitForTimeout(ms) {
       precio,
       autor,
       fecha,
-      // Añadir más campos aquí
     };
   });
 
@@ -60,16 +57,19 @@ function waitForTimeout(ms) {
       nombre: 'Capítulo 1',
       contenido: 'Contenido del capítulo 1...'
     },
-    // Puedes añadir más secciones aquí según la estructura de la web
   ];
-
-  console.log('Guardando estructura en archivo JSON...');
-  // Guardar la estructura en un archivo JSON
-  fs.writeFileSync('estructura.json', JSON.stringify(estructura, null, 2));
 
   // Convertir a CSV si prefieres esa opción
   const csv = parse(estructura);
-  fs.writeFileSync('estructura.csv', csv);
 
-  console.log('Estructura guardada en estructura.json y estructura.csv');
-})();
+  return {
+    statusCode: 200,
+    body: JSON.stringify({
+      json: estructura,
+      csv: csv
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+};
