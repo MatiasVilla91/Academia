@@ -1,6 +1,5 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
-const { parse } = require('json2csv');
 
 // Función de espera genérica
 function waitForTimeout(ms) {
@@ -22,32 +21,19 @@ function waitForTimeout(ms) {
 
   console.log('Extrayendo datos...');
   const estructura = await page.evaluate(() => {
-    const getTextContent = (selector) => {
-      const element = document.querySelector(selector);
-      return element ? element.innerText : 'No disponible';
-    };
+    const tituloElement = document.querySelector('h1');
+    const descripcionElement = document.querySelector('.content-description');
+    const precioElement = document.querySelector('.price');
 
-    const titulo = getTextContent('h1');
-    const descripcion = getTextContent('.content-description');
-    const precio = getTextContent('.price');
-    const autor = getTextContent('.author-name'); // Ejemplo de autor
-    const fecha = getTextContent('.release-date'); // Ejemplo de fecha de lanzamiento
-    // Añadir más selectores según los elementos disponibles en la página
-
-    return {
-      titulo,
-      descripcion,
-      precio,
-      autor,
-      fecha,
-      // Añadir más campos aquí
-    };
+    const titulo = tituloElement ? tituloElement.innerText : 'No disponible';
+    const descripcion = descripcionElement ? descripcionElement.innerText : 'No disponible';
+    const precio = precioElement ? precioElement.innerText : 'No disponible';
+    
+    return { titulo, descripcion, precio };
   });
 
   console.log('Esperando 2 segundos antes de cerrar el navegador...');
   await waitForTimeout(2000);
-
-  await browser.close();
 
   console.log('Añadiendo secciones...');
   // Añadir secciones de ejemplo (modificar según necesidades)
@@ -63,13 +49,11 @@ function waitForTimeout(ms) {
     // Puedes añadir más secciones aquí según la estructura de la web
   ];
 
+  await browser.close();
+
   console.log('Guardando estructura en archivo JSON...');
   // Guardar la estructura en un archivo JSON
   fs.writeFileSync('estructura.json', JSON.stringify(estructura, null, 2));
 
-  // Convertir a CSV si prefieres esa opción
-  const csv = parse(estructura);
-  fs.writeFileSync('estructura.csv', csv);
-
-  console.log('Estructura guardada en estructura.json y estructura.csv');
+  console.log('Estructura guardada en estructura.json');
 })();
