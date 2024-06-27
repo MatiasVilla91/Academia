@@ -1,18 +1,18 @@
 const puppeteer = require('puppeteer');
-const { parse } = require('json2csv');
+const fs = require('fs');
 
-exports.handler = async (event, context) => {
-  // Función de espera genérica
-  function waitForTimeout(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
+// Función de espera genérica
+function waitForTimeout(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
+(async () => {
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
     headless: true,
   });
   const page = await browser.newPage();
-
+  
   console.log('Navegando a la página...');
   await page.goto('https://hotmart.com/es/marketplace/productos/sueno-lucido-total-el-arte-del-sueno-consciente-y-la-experiencia-obe-en-30-dias', { waitUntil: 'networkidle2' });
 
@@ -21,30 +21,19 @@ exports.handler = async (event, context) => {
 
   console.log('Extrayendo datos...');
   const estructura = await page.evaluate(() => {
-    const getTextContent = (selector) => {
-      const element = document.querySelector(selector);
-      return element ? element.innerText : 'No disponible';
-    };
+    const tituloElement = document.querySelector('h1');
+    const descripcionElement = document.querySelector('.content-description');
+    const precioElement = document.querySelector('.price');
 
-    const titulo = getTextContent('h1');
-    const descripcion = getTextContent('.content-description');
-    const precio = getTextContent('.price');
-    const autor = getTextContent('.author-name'); // Ejemplo de autor
-    const fecha = getTextContent('.release-date'); // Ejemplo de fecha de lanzamiento
-
-    return {
-      titulo,
-      descripcion,
-      precio,
-      autor,
-      fecha,
-    };
+    const titulo = tituloElement ? tituloElement.innerText : 'No disponible';
+    const descripcion = descripcionElement ? descripcionElement.innerText : 'No disponible';
+    const precio = precioElement ? precioElement.innerText : 'No disponible';
+    
+    return { titulo, descripcion, precio };
   });
 
   console.log('Esperando 2 segundos antes de cerrar el navegador...');
   await waitForTimeout(2000);
-
-  await browser.close();
 
   console.log('Añadiendo secciones...');
   // Añadir secciones de ejemplo (modificar según necesidades)
@@ -57,19 +46,14 @@ exports.handler = async (event, context) => {
       nombre: 'Capítulo 1',
       contenido: 'Contenido del capítulo 1...'
     },
+    // Puedes añadir más secciones aquí según la estructura de la web
   ];
 
-  // Convertir a CSV si prefieres esa opción
-  const csv = parse(estructura);
+  await browser.close();
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      json: estructura,
-      csv: csv
-    }),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-};
+  console.log('Guardando estructura en archivo JSON...');
+  // Guardar la estructura en un archivo JSON
+  fs.writeFileSync('estructura.json', JSON.stringify(estructura, null, 2));
+
+  console.log('Estructura guardada en estructura.json');
+})();
