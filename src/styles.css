@@ -1,0 +1,39 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #7d7c7c;
+}
+
+.homepage, .course-page {
+  padding: 20px;
+}
+
+.carousel img {
+  height: 600px;
+  object-fit: cover;
+}
+
+.course-page .details, .course-page .testimonials {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+
+.footer {
+  padding: 20px 0;
+  background-color: #343a40;
+  color: white;
+}
+
+.footer a {
+  color: white;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
