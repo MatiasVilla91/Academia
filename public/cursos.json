@@ -38,7 +38,7 @@
     "id": 2,
     "title": "Curso de Meditación Avanzado",
     "description": "Es posible que en tu vida la meditación esté haciendo un llamado...",
-    "price": "$58.855,00",
+    "price": "$59.00",
     "image": "https://static-media.hotmart.com/rINfnqBtwF2Y8UyxymQLkmsqHNM=/300x300/smart/filters:format(webp):background_color(white)/hotmart/product_pictures/d63f839b-2567-40d2-9f0f-40f131f309e5/12052021MiniaturasHotmartP111.png?w=920",
     "details": "En este curso, aprenderás sobre los arcanos mayores y menores, y cómo usar el tarot para la adivinación.",
     "duration": "8 horas",
@@ -54,20 +54,21 @@
       {
         "name": "Juan Contreras",
         "text": "La meditación avanzada ha mejorado mi vida significativamente. Recomendado.",
-        "image": "https://via.placeholder.com/150"
+        "image": "/img/juan_c.jpeg"
       },
       {
-        "name": "Emiliano",
+        "name": "Emiliano.",
         "text": "Gran curso con técnicas muy útiles.",
-        "image": "https://via.placeholder.com/150"
+        "image": "/img/emiliano.jpeg"
       },
       {
-        "name": "Agustina Lopez",
-        "text": "He encontrado paz y tranquilidad.",
-        "image": "https://via.placeholder.com/150"
+        "name": "Agustin",
+        "text": "He encontrado paz y tranquilidad, gracias!",
+        "image": "/img/agustin.jpeg"
       }
       
-    ]
+    ],
+    "link":"https://hotmart.com/es/marketplace/productos/curso-de-meditacion-avanzado/P29568052C?ref=B45059024O"
   },
   
     {
