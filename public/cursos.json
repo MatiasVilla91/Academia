@@ -17,19 +17,19 @@
     ],
     "testimonials": [
       {
-        "name": "Alumno satisfecho",
-        "text": "Este curso me cambió la vida. La información es clara y muy bien explicada.",
-        "image": "https://via.placeholder.com/150"
+        "name": "Jose",
+        "text": "Este curso transformó mi vida por completo. Siempre quise aprender sobre el sueño lúcido y este programa lo hizo posible. Las explicaciones son claras y detalladas, y me sentí acompañada durante todo el proceso. ¡Totalmente recomendado!",
+        "image": "/img/jose.jpeg"
       },
       {
-        "name": "Alumno satisfecho",
-        "text": "La información es clara y muy bien explicada.",
-        "image": "https://via.placeholder.com/150"
+        "name": "Ana",
+        "text": "Me encantó el curso. Nunca había experimentado un aprendizaje tan profundo y revelador sobre el viaje astral. Las prácticas y ejercicios son geniales y realmente te preparan para vivir la experiencia.",
+        "image": "/img/ana_r.jpeg"
       },
       {
-        "name": "Alumno satisfecho",
-        "text": "Me encantó el curso.",
-        "image": "https://via.placeholder.com/150"
+        "name": "Juan P.",
+        "text": "La información es muy accesible, incluso para alguien como yo que es principiante. Aprendí técnicas avanzadas que nunca imaginé posibles. El instructor es excelente, y el material está bien estructurado. ¡Vale cada centavo!",
+        "image": "/img/juan_p.jpeg"
       }
     ],
       "link": "https://go.hotmart.com/H60828006O?ap=9c54"
@@ -154,7 +154,7 @@
     "details": "En éste taller vamos a entender cómo podemos usar a nuestro favor, la mente en alineación con el corazón, con un método paso a paso, para poder crear la realidad que queremos, con esa meta o ese sueño que hemos intentado -de todas las maneras- y NO hemos podido manifestar.",
     "duration": "15 horas",
     "level": "Todos los niveles",
-    "instructor": "María García",
+    "instructor": " Alexandra Nizhelskaya",
     "content": [
       "INSTRUCCIONES PARA  EMPEZAR",
       "QUIÉN SOY Y POR QUÉ HABLO DE ÉSTO",
